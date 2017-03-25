@@ -23,8 +23,14 @@ namespace LocalInfo.Controllers
 
             return new LocalInfoModel()
             {
-                TodaysTemperature = Convert.ToInt32(localWeatherDataModel.main.temp)
+                TodaysTemperature = Convert.ToInt32(localWeatherDataModel.main.temp),
+                Longitude = localWeatherDataModel.coord.lon,
+                Lattitude =localWeatherDataModel.coord.lat,
+                Sunrise = new DateTime (1970,1,1).AddSeconds(localWeatherDataModel.sys.sunrise).ToLocalTime().ToString(),
+                Sunset = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunset).ToLocalTime().ToString(),
+
             };
+
         }
     }
 
@@ -32,6 +38,11 @@ namespace LocalInfo.Controllers
     public class LocalInfoModel
     {
         public int TodaysTemperature { get; set; }
+        public double Longitude { get; set; }
+        public double Lattitude { get; set; }
+        public string Sunrise { get; set; }
+        public string Sunset { get; set; }
+
     }
 
 
@@ -56,16 +67,16 @@ namespace LocalInfo.Controllers
     public class Main
     {
         public double temp { get; set; }
-        public int pressure { get; set; }
-        public int humidity { get; set; }
+        public double pressure { get; set; }
+        public double humidity { get; set; }
         public double temp_min { get; set; }
-        public int temp_max { get; set; }
+        public double temp_max { get; set; }
     }
 
     public class Wind
     {
         public double speed { get; set; }
-        public int deg { get; set; }
+        public double deg { get; set; }
     }
 
     public class Clouds
