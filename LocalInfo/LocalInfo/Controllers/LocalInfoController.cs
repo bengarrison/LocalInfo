@@ -9,12 +9,15 @@ using LocalInfo.DataModels;
 
 namespace LocalInfo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class LocalInfoController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public LocalInfoModel Get()
+        public IActionResult Index()
+        {
+            return View(GetLocalInfo());
+        }
+
+        private LocalInfoModel GetLocalInfo()
         {
             var httpClient = new HttpClient();
             var response = httpClient.GetStringAsync(
@@ -26,12 +29,10 @@ namespace LocalInfo.Controllers
             {
                 TodaysTemperature = Convert.ToInt32(localWeatherDataModel.main.temp),
                 Longitude = localWeatherDataModel.coord.lon,
-                Lattitude =localWeatherDataModel.coord.lat,
-                Sunrise = new DateTime (1970,1,1).AddSeconds(localWeatherDataModel.sys.sunrise).ToLocalTime().ToString(),
-                Sunset = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunset).ToLocalTime().ToString(),
-
+                Lattitude = localWeatherDataModel.coord.lat,
+                Sunrise = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunrise).ToLocalTime().ToString(),
+                Sunset = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunset).ToLocalTime().ToString()
             };
-
         }
     }
 }
