@@ -2,7 +2,7 @@
 {
     public class LocalInfoModel
     {
-        public int TodaysTemperature { get; set; }
+        public int CurrentTemperature { get; set; }
         public double Longitude { get; set; }
         public double Lattitude { get; set; }
         public string Sunrise { get; set; }

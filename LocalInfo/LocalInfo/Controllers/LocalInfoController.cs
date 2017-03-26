@@ -20,16 +20,17 @@ namespace LocalInfo.Controllers
 
         private LocalInfoModel GetLocalInfoModel()
         {
-            var openWeatherMapDataService = new OpenWeatherMapDataService();
-            var localWeatherDataModel = openWeatherMapDataService.GetLocalWeather();
-
+            var darkSkyWeather = new DarkSky.Services.DarkSkyService("054cb92e44f2aea1e4bc6333aa7deb3d");
+            var forecast = darkSkyWeather.GetForecast(32.959492, -117.265244);
+            var todaysData = forecast.Result.Response.Daily.Data.OrderBy(x => x.Time).First();
+       
             return new LocalInfoModel()
             {
-                TodaysTemperature = Convert.ToInt32(localWeatherDataModel.main.temp),
-                Longitude = localWeatherDataModel.coord.lon,
-                Lattitude = localWeatherDataModel.coord.lat,
-                Sunrise = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunrise).ToLocalTime().ToString(),
-                Sunset = new DateTime(1970, 1, 1).AddSeconds(localWeatherDataModel.sys.sunset).ToLocalTime().ToString()
+                CurrentTemperature = Convert.ToInt32(forecast.Result.Response.Currently.Temperature.Value),
+                Longitude = forecast.Result.Response.Longitude,
+                Lattitude = forecast.Result.Response.Latitude,
+                Sunrise = new DateTime(1970, 1, 1).AddSeconds(todaysData.SunriseTime.Value).ToLocalTime().ToString(),
+                Sunset = new DateTime(1970, 1, 1).AddSeconds(todaysData.SunsetTime.Value).ToLocalTime().ToString(),
             };
         }
     }
