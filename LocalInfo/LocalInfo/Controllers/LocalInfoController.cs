@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using LocalInfo.Models;
-using LocalInfo.DataModels;
-using LocalInfo.DataServices;
 
 namespace LocalInfo.Controllers
 {
