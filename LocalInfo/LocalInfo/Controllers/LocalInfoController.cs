@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using LocalInfo.Models;
 using LocalInfo.DataModels;
+using LocalInfo.DataServices;
 
 namespace LocalInfo.Controllers
 {
@@ -14,16 +15,13 @@ namespace LocalInfo.Controllers
     {
         public IActionResult Index()
         {
-            return View(GetLocalInfo());
+            return View(GetLocalInfoModel());
         }
 
-        private LocalInfoModel GetLocalInfo()
+        private LocalInfoModel GetLocalInfoModel()
         {
-            var httpClient = new HttpClient();
-            var response = httpClient.GetStringAsync(
-                 "http://api.openweathermap.org/data/2.5/weather?APPID=1b24c4fec1ac428fff1ffce582d102b2&q=San Diego&units=imperial").Result;
-
-            var localWeatherDataModel = JsonConvert.DeserializeObject<LocalWeatherDataModel>(response);
+            var openWeatherMapDataService = new OpenWeatherMapDataService();
+            var localWeatherDataModel = openWeatherMapDataService.GetLocalWeather();
 
             return new LocalInfoModel()
             {
